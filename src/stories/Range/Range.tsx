@@ -161,6 +161,7 @@ export const Range = ({
   useEffect(() => {
     const handleDocumentMouseUp = () => {
       active.current = false;
+      positionObj.current.target.style.cursor = "w-resize";
     };
 
     const { offsetLeft: offset } = rangeRef.current;
@@ -180,6 +181,13 @@ export const Range = ({
 
     // In the first render left style is undefined
     target.style.left = positionObj.current.position || 0;
+
+    // Set z-index to 1 from the current target
+    if (positionObj.current.target) {
+      positionObj.current.target.style.zIndex = "1";
+    }
+    target.style.zIndex = "2";
+    target.style.cursor = "move";
 
     // Define which button is active
     if (btn === RangeButton.MIN) {
