@@ -46,7 +46,6 @@ export const Range = ({
   buttonSize = 30,
   withDecimals = false,
 }: RangeProps) => {
-  const [value, setValue] = useState(val);
   const [rangeValues, setRangeValues] = useState(range);
 
   useEffect(() => {
@@ -131,12 +130,14 @@ export const Range = ({
       minButton.current = maxButton.current;
       minInputRef.current.value = calcValueOp(maxButton.current);
       bulletCurrent.style.left = `${maxButton.current}px`;
+      changeRangeLength();
       return;
     }
     if (isMaxButton && compute <= minButton.current) {
       maxButton.current = minButton.current;
       maxInputRef.current.value = calcValueOp(minButton.current);
       bulletCurrent.style.left = `${minButton.current}px`;
+      changeRangeLength();
       return;
     }
 

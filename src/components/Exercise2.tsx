@@ -6,7 +6,7 @@ export const Exercise2 = () => {
   useEffect(() => {
     fetch("http://demo6947846.mockable.io/exercise2")
       .then((response) => response.json())
-      .then((data) => setDataExercise([data.min, data.max]));
+      .then((data) => setDataExercise(data.range));
   }, []);
   return (
     <div>
