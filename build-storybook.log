@@ -1,0 +1,39 @@
+info @storybook/react v6.5.0-alpha.23
+info 
+info => Cleaning outputDir: /tmp/chromatic--698298-huDMJJIZZeQh
+info => Loading presets
+info => Compiling manager..
+vite v2.7.13 building for production...
+transforming...
+Use of eval is strongly discouraged, as it poses security risks and may cause issues with minification
+Use of eval is strongly discouraged, as it poses security risks and may cause issues with minification
+Use of eval is strongly discouraged, as it poses security risks and may cause issues with minification
+✓ 1226 modules transformed.
+rendering chunks...
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/iframe.html                                 11.73 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/iframe.b2e85599.js                   9.57 KiB / gzip: 3.35 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/iframe.b2e85599.js.map               14.19 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/renderDocs.9fae4e83.js               2.38 KiB / gzip: 1.13 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/renderDocs.9fae4e83.js.map           7.92 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/WithTooltip.7ca6e0a3.js              38.55 KiB / gzip: 12.71 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/WithTooltip.7ca6e0a3.js.map          168.72 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/GlobalScrollAreaStyles.20c2aaaf.js   10.08 KiB / gzip: 2.25 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/GlobalScrollAreaStyles.20c2aaaf.js.map 18.48 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/Color.249d56e7.js                    33.65 KiB / gzip: 12.47 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/Color.249d56e7.js.map                116.78 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/iframe.94a8d28a.css                  2.00 KiB / gzip: 0.77 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/OverlayScrollbars.e681aa9f.js        57.99 KiB / gzip: 24.83 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/OverlayScrollbars.e681aa9f.js.map    457.75 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/syntaxhighlighter.8dae6f1a.js        73.77 KiB / gzip: 27.05 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/syntaxhighlighter.8dae6f1a.js.map    256.96 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/index.c7796fa1.js                    451.53 KiB / gzip: 123.71 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/index.c7796fa1.js.map                1177.92 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/vendor.f5bf189f.js                   906.04 KiB / gzip: 254.25 KiB
+../../../../../tmp/chromatic--698298-huDMJJIZZeQh/assets/vendor.f5bf189f.js.map               2454.34 KiB
+
+(!) Some chunks are larger than 500 KiB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/guide/en/#outputmanualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+info => Manager built (23 s)
+info => Output directory: /tmp/chromatic--698298-huDMJJIZZeQh
