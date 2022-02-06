@@ -31,7 +31,7 @@ interface RangeProps {
   width?: number;
   withDecimals?: boolean;
   buttonSize?: number;
-  values?: number[];
+  range?: number[];
 }
 
 enum RangeButton {
@@ -41,13 +41,17 @@ enum RangeButton {
 
 export const Range = ({
   value: val,
-  values = [0, 100],
+  range = [0, 100],
   width = 200,
   buttonSize = 30,
   withDecimals = false,
-  ...props
 }: RangeProps) => {
   const [value, setValue] = useState(val);
+  const [rangeValues, setRangeValues] = useState(range);
+
+  useEffect(() => {
+    setRangeValues(range);
+  }, [range]);
 
   const rangeRef = useRef<any>(null);
   const lengthRef = useRef<any>(null);
@@ -76,17 +80,17 @@ export const Range = ({
   };
 
   const calcValueOp = (compute: number) => {
-    const calc: number = (compute * (values[1] - values[0])) / width;
+    const calc: number = (compute * (rangeValues[1] - rangeValues[0])) / width;
     if (withDecimals) {
-      return calc + values[0];
+      return calc + rangeValues[0];
     }
-    return Math.round(calc + values[0]);
+    return Math.round(calc + rangeValues[0]);
   };
 
   const reverseCalcValueOp = (value: string): number => {
-    const absolute = values[1] - values[0];
+    const absolute = rangeValues[1] - rangeValues[0];
     const reverseCalc: number =
-      ((parseInt(value, 10) - values[0]) * width) / absolute;
+      ((parseInt(value, 10) - rangeValues[0]) * width) / absolute;
     return Math.round(reverseCalc);
   };
 
@@ -102,13 +106,13 @@ export const Range = ({
     if (compute > width) {
       bulletRef.style.left = `${width}px`;
       maxButton.current = width;
-      maxInputRef.current.value = values[1];
+      maxInputRef.current.value = rangeValues[1];
       return true;
     }
     if (compute < 0) {
       bulletRef.style.left = `${0}px`;
       minButton.current = 0;
-      minInputRef.current.value = values[0];
+      minInputRef.current.value = rangeValues[0];
       return true;
     }
     return false;
@@ -211,7 +215,7 @@ export const Range = ({
       document.removeEventListener("mouseup", handleDocumentMouseUp);
       document.removeEventListener("mousemove", handleOnMouseMove);
     };
-  }, []);
+  }, [rangeValues]);
 
   const setActiveButton = (
     event: any,
@@ -295,7 +299,6 @@ export const Range = ({
         className="slider__input slider__input--max"
         onChange={handleMaxInputChange}
       />
-      <input value={value} type="hidden" {...props} />
     </div>
   );
 };
