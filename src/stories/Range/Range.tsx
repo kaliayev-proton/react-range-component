@@ -26,34 +26,12 @@ const computeMovement = (
   return compute;
 };
 
-const checkMinMaxLength = (
-  compute: number,
-  width: number,
-  bulletRef: any,
-  minButton: any,
-  maxButton: any,
-  maxInputRef: any,
-  minInputRef: any
-): boolean => {
-  if (compute > width) {
-    bulletRef.style.left = `${width}px`;
-    maxButton.current = width;
-    maxInputRef.current.value = width;
-    return true;
-  }
-  if (compute < 0) {
-    bulletRef.style.left = `${0}px`;
-    minButton.current = 0;
-    minInputRef.current.value = 0;
-    return true;
-  }
-  return false;
-};
-
 interface RangeProps {
   value?: string;
   width?: number;
+  withDecimals?: boolean;
   buttonSize?: number;
+  values?: number[];
 }
 
 enum RangeButton {
@@ -63,8 +41,10 @@ enum RangeButton {
 
 export const Range = ({
   value: val,
+  values = [0, 100],
   width = 200,
   buttonSize = 30,
+  withDecimals = false,
   ...props
 }: RangeProps) => {
   const [value, setValue] = useState(val);
@@ -88,42 +68,80 @@ export const Range = ({
   const buttonActive = useRef<RangeButton>();
   const offsetLeft = useRef<number>(0);
 
-  const changeRangeLength = () => {
+  const changeRangeLength = (): void => {
     lengthRef.current.style.width = `${
       maxButton.current - minButton.current
     }px`;
     lengthRef.current.style.left = `${minButton.current}px`;
   };
 
+  const calcValueOp = (compute: number) => {
+    const calc: number = (compute * (values[1] - values[0])) / width;
+    if (withDecimals) {
+      return calc + values[0];
+    }
+    return Math.round(calc + values[0]);
+  };
+
+  const reverseCalcValueOp = (value: string): number => {
+    const absolute = values[1] - values[0];
+    const reverseCalc: number =
+      ((parseInt(value, 10) - values[0]) * width) / absolute;
+    return Math.round(reverseCalc);
+  };
+
+  const checkMinMaxLength = (
+    compute: number,
+    width: number,
+    bulletRef: any,
+    minButton: any,
+    maxButton: any,
+    maxInputRef: any,
+    minInputRef: any
+  ): boolean => {
+    if (compute > width) {
+      bulletRef.style.left = `${width}px`;
+      maxButton.current = width;
+      maxInputRef.current.value = values[1];
+      return true;
+    }
+    if (compute < 0) {
+      bulletRef.style.left = `${0}px`;
+      minButton.current = 0;
+      minInputRef.current.value = values[0];
+      return true;
+    }
+    return false;
+  };
+
   const updateBulletPosition = (
     compute: number,
-    bulletRef: any,
+    bulletCurrent: any,
     buttonType: RangeButton | undefined
-  ) => {
-    const isMinButton = buttonType === RangeButton.MIN;
-    const isMaxButton = buttonType === RangeButton.MAX;
+  ): void => {
+    const isMinButton: boolean = buttonType === RangeButton.MIN;
+    const isMaxButton: boolean = buttonType === RangeButton.MAX;
 
-    // Min button is not more than max
+    // Skip if Min button is more than max or max less than min
     if (isMinButton && compute >= maxButton.current) {
       minButton.current = maxButton.current;
-      minInputRef.current.value = maxButton.current;
-      bulletRef.style.left = `${maxButton.current}px`;
+      minInputRef.current.value = calcValueOp(maxButton.current);
+      bulletCurrent.style.left = `${maxButton.current}px`;
       return;
     }
-
     if (isMaxButton && compute <= minButton.current) {
       maxButton.current = minButton.current;
-      maxInputRef.current.value = minButton.current;
-      bulletRef.style.left = `${minButton.current}px`;
+      maxInputRef.current.value = calcValueOp(minButton.current);
+      bulletCurrent.style.left = `${minButton.current}px`;
       return;
     }
 
-    // Return if max or min length reached
+    // Skip if max or min length reached
     if (
       checkMinMaxLength(
         compute,
         width,
-        bulletRef,
+        bulletCurrent,
         minButton,
         maxButton,
         maxInputRef,
@@ -136,19 +154,19 @@ export const Range = ({
 
     if (isMaxButton) {
       maxButton.current = compute;
-      maxInputRef.current.value = compute;
+      maxInputRef.current.value = calcValueOp(compute);
     }
     if (isMinButton) {
       minButton.current = compute;
-      minInputRef.current.value = compute;
+      minInputRef.current.value = calcValueOp(compute);
     }
 
     changeRangeLength();
 
-    bulletRef.style.left = `${compute}px`;
+    bulletCurrent.style.left = `${compute}px`;
   };
 
-  const handleOnMouseMove = (event: any) => {
+  const handleOnMouseMove = (event: any): void => {
     if (!active.current) {
       return;
     }
@@ -200,7 +218,7 @@ export const Range = ({
     btn: RangeButton,
     bulletPosition: any,
     bulletRefCurrent: any
-  ) => {
+  ): void => {
     const { target, clientX } = event;
     active.current = true;
 
@@ -222,14 +240,14 @@ export const Range = ({
 
   const handleMinInputChange = (event: any) => {
     updateBulletPosition(
-      parseInt(event.target.value),
+      reverseCalcValueOp(event.target.value),
       minBulletRef.current,
       RangeButton.MIN
     );
   };
   const handleMaxInputChange = (event: any) => {
     updateBulletPosition(
-      parseInt(event.target.value),
+      reverseCalcValueOp(event.target.value),
       maxBulletRef.current,
       RangeButton.MAX
     );
@@ -249,11 +267,6 @@ export const Range = ({
       maxButton.current,
       maxBulletRef.current
     );
-
-  // Pending for implement
-  const handleFocus = () => {};
-  const handleOnKeyDown = () => {};
-  const handleOnKeyUp = () => {};
 
   return (
     <div role="slider" className="slider">
