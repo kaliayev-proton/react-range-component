@@ -78,16 +78,31 @@ export const Range = ({
     lengthRef.current.style.left = `${minButton.current}px`;
   };
 
-  const calcValueOp = (compute: number) => {
-    const calc: number = (compute * (rangeValues[1] - rangeValues[0])) / width;
+  const calcValueOp = (compute: number): number => {
+    const calc: number =
+      (compute * (rangeValues[rangeValues.length - 1] - rangeValues[0])) /
+      width;
     if (withDecimals) {
       return calc + rangeValues[0];
+    }
+    if (rangeValues.length > 2) {
+      // Add second exercise logic
+      let number: number = calc;
+      rangeValues.forEach((value, i: number) => {
+        if (calc < value && !rangeValues[i - 1]) {
+          number = value;
+        }
+        if (calc < value && calc > rangeValues[i - 1]) {
+          number = value;
+        }
+      });
+      return number;
     }
     return Math.round(calc + rangeValues[0]);
   };
 
   const reverseCalcValueOp = (value: string): number => {
-    const absolute = rangeValues[1] - rangeValues[0];
+    const absolute = rangeValues[rangeValues.length - 1] - rangeValues[0];
     const reverseCalc: number =
       ((parseInt(value, 10) - rangeValues[0]) * width) / absolute;
     return Math.round(reverseCalc);
@@ -105,7 +120,7 @@ export const Range = ({
     if (compute > width) {
       bulletRef.style.left = `${width}px`;
       maxButton.current = width;
-      maxInputRef.current.value = rangeValues[1];
+      maxInputRef.current.value = rangeValues[rangeValues.length - 1];
       return true;
     }
     if (compute < 0) {
@@ -157,6 +172,7 @@ export const Range = ({
       return;
     }
 
+    // Update position and input refs
     if (isMaxButton) {
       maxButton.current = compute;
       maxInputRef.current.value = calcValueOp(compute);
@@ -280,6 +296,7 @@ export const Range = ({
         ref={minInputRef}
         className="slider__input"
         onChange={handleMinInputChange}
+        disabled={rangeValues.length > 2}
       />
       <div ref={rangeRef} className="slider__range" style={{ width }}>
         <button
@@ -299,6 +316,7 @@ export const Range = ({
         ref={maxInputRef}
         className="slider__input slider__input--max"
         onChange={handleMaxInputChange}
+        disabled={rangeValues.length > 2}
       />
     </div>
   );
