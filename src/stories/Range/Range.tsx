@@ -1,5 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import "./range.css";
+
+type HTMLElementEvent<T extends HTMLElement> = Event & {
+  target: T;
+  clientX: number;
+};
 
 const computeMovement = (
   clientX: number,
@@ -27,7 +32,7 @@ const computeMovement = (
 };
 
 interface RangeProps {
-  value?: string;
+  value?: number[];
   width?: number;
   withDecimals?: boolean;
   buttonSize?: number;
@@ -40,7 +45,7 @@ enum RangeButton {
 }
 
 export const Range = ({
-  value: val,
+  value,
   range = [0, 100],
   width = 200,
   buttonSize = 30,
@@ -52,16 +57,20 @@ export const Range = ({
     setRangeValues(range);
   }, [range]);
 
-  const rangeRef = useRef<any>(null);
-  const lengthRef = useRef<any>(null);
+  const rangeRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+  const lengthRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 
   // Inputs
-  const minInputRef = useRef<any>(null);
-  const maxInputRef = useRef<any>(null);
+  const minInputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const maxInputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
   // Bullets
-  const minBulletRef = useRef<any>(null);
-  const maxBulletRef = useRef<any>(null);
+  const minBulletRef = useRef<any>(
+    null
+  ) as React.MutableRefObject<HTMLButtonElement>;
+  const maxBulletRef = useRef<any>(
+    null
+  ) as React.MutableRefObject<HTMLButtonElement>;
 
   // Positions
   const minButton = useRef<number>(0);
@@ -111,22 +120,22 @@ export const Range = ({
   const checkMinMaxLength = (
     compute: number,
     width: number,
-    bulletRef: any,
-    minButton: any,
-    maxButton: any,
-    maxInputRef: any,
-    minInputRef: any
+    bulletRef: HTMLButtonElement,
+    minButton: number,
+    maxButton: number,
+    maxInputRef: HTMLInputElement | undefined,
+    minInputRef: HTMLInputElement | undefined
   ): boolean => {
-    if (compute > width) {
+    if (compute > width && maxInputRef) {
       bulletRef.style.left = `${width}px`;
-      maxButton.current = width;
-      maxInputRef.current.value = rangeValues[rangeValues.length - 1];
+      maxButton = width;
+      maxInputRef.value = rangeValues[rangeValues.length - 1].toString();
       return true;
     }
-    if (compute < 0) {
+    if (compute < 0 && minInputRef) {
       bulletRef.style.left = `${0}px`;
-      minButton.current = 0;
-      minInputRef.current.value = rangeValues[0];
+      minButton = 0;
+      minInputRef.value = rangeValues[0].toString();
       return true;
     }
     return false;
@@ -134,23 +143,23 @@ export const Range = ({
 
   const updateBulletPosition = (
     compute: number,
-    bulletCurrent: any,
+    bulletCurrent: HTMLButtonElement,
     buttonType: RangeButton | undefined
   ): void => {
     const isMinButton: boolean = buttonType === RangeButton.MIN;
     const isMaxButton: boolean = buttonType === RangeButton.MAX;
 
     // Skip if Min button is more than max or max less than min
-    if (isMinButton && compute >= maxButton.current) {
+    if (isMinButton && compute >= maxButton.current && minInputRef.current) {
       minButton.current = maxButton.current;
-      minInputRef.current.value = calcValueOp(maxButton.current);
+      minInputRef.current.value = calcValueOp(maxButton.current).toString();
       bulletCurrent.style.left = `${maxButton.current}px`;
       changeRangeLength();
       return;
     }
-    if (isMaxButton && compute <= minButton.current) {
+    if (isMaxButton && compute <= minButton.current && maxInputRef.current) {
       maxButton.current = minButton.current;
-      maxInputRef.current.value = calcValueOp(minButton.current);
+      maxInputRef.current.value = calcValueOp(minButton.current).toString();
       bulletCurrent.style.left = `${minButton.current}px`;
       changeRangeLength();
       return;
@@ -162,10 +171,10 @@ export const Range = ({
         compute,
         width,
         bulletCurrent,
-        minButton,
-        maxButton,
-        maxInputRef,
-        minInputRef
+        minButton.current,
+        maxButton.current,
+        maxInputRef.current,
+        minInputRef.current
       )
     ) {
       changeRangeLength();
@@ -173,13 +182,13 @@ export const Range = ({
     }
 
     // Update position and input refs
-    if (isMaxButton) {
+    if (isMaxButton && maxInputRef.current) {
       maxButton.current = compute;
-      maxInputRef.current.value = calcValueOp(compute);
+      maxInputRef.current.value = calcValueOp(compute).toString();
     }
-    if (isMinButton) {
+    if (isMinButton && minInputRef.current) {
       minButton.current = compute;
-      minInputRef.current.value = calcValueOp(compute);
+      minInputRef.current.value = calcValueOp(compute).toString();
     }
 
     changeRangeLength();
@@ -187,7 +196,7 @@ export const Range = ({
     bulletCurrent.style.left = `${compute}px`;
   };
 
-  const handleOnMouseMove = (event: any): void => {
+  const handleOnMouseMove = (event: MouseEvent): void => {
     if (!active.current) {
       return;
     }
@@ -235,16 +244,16 @@ export const Range = ({
   }, [rangeValues]);
 
   const setActiveButton = (
-    event: any,
+    event: HTMLElementEvent<HTMLButtonElement>,
     btn: RangeButton,
-    bulletPosition: any,
-    bulletRefCurrent: any
+    bulletPosition: number,
+    bulletRefCurrent: HTMLButtonElement
   ): void => {
     const { target, clientX } = event;
     active.current = true;
 
     // In the first render left style is undefined
-    target.style.left = bulletPosition || 0;
+    target.style.left = (bulletPosition || 0).toString();
 
     // Set z-index to 1 from the current target
     if (bulletRefCurrent) {

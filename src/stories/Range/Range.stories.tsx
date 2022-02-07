@@ -22,20 +22,20 @@ const Template: ComponentStory<typeof Range> = (args) => (
 export const Primary = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Primary.args = {
-  value: "Range",
+  value: [1, 100],
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  value: "Range",
+  value: [1, 100],
 };
 
 export const Large = Template.bind({});
 Large.args = {
-  value: "Range",
+  value: [1, 100],
 };
 
 export const Small = Template.bind({});
 Small.args = {
-  value: "Range",
+  value: [1, 100],
 };

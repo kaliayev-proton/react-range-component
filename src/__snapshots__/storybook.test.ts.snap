@@ -1,109 +1,197 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storyshots Design System/Button Large 1`] = `
-<button
-  className="storybook-button storybook-button--large storybook-button--secondary"
-  style={
-    Object {
-      "backgroundColor": undefined,
-    }
-  }
-  type="button"
->
-  Button
-</button>
-`;
-
-exports[`Storyshots Design System/Button Primary 1`] = `
-<button
-  className="storybook-button storybook-button--medium storybook-button--primary"
-  style={
-    Object {
-      "backgroundColor": undefined,
-    }
-  }
-  type="button"
->
-  Button
-</button>
-`;
-
-exports[`Storyshots Design System/Button Secondary 1`] = `
-<button
-  className="storybook-button storybook-button--medium storybook-button--secondary"
-  style={
-    Object {
-      "backgroundColor": undefined,
-    }
-  }
-  type="button"
->
-  Button
-</button>
-`;
-
-exports[`Storyshots Design System/Button Small 1`] = `
-<button
-  className="storybook-button storybook-button--small storybook-button--secondary"
-  style={
-    Object {
-      "backgroundColor": undefined,
-    }
-  }
-  type="button"
->
-  Button
-</button>
-`;
-
 exports[`Storyshots Design System/Range Large 1`] = `
-<input
-  className="storybook-range storybook-range--large storybook-range--secondary"
+<div
   style={
     Object {
-      "backgroundColor": undefined,
+      "display": "flex",
+      "justifyContent": "center",
     }
   }
-  type="range"
-  value="Range"
-/>
+>
+  <div
+    className="slider"
+    role="slider"
+  >
+    <input
+      className="slider__input"
+      disabled={false}
+      onChange={[Function]}
+      type="number"
+    />
+    <div
+      className="slider__range"
+      style={
+        Object {
+          "width": 200,
+        }
+      }
+    >
+      <button
+        className="slider__range__btn"
+        onMouseDown={[Function]}
+      />
+      <div
+        className="slider__range__length"
+      />
+      <button
+        className="slider__range__btn"
+        onMouseDown={[Function]}
+      />
+    </div>
+    <input
+      className="slider__input slider__input--max"
+      disabled={false}
+      onChange={[Function]}
+      type="number"
+    />
+  </div>
+</div>
 `;
 
 exports[`Storyshots Design System/Range Primary 1`] = `
-<input
-  className="storybook-range storybook-range--medium storybook-range--primary"
+<div
   style={
     Object {
-      "backgroundColor": undefined,
+      "display": "flex",
+      "justifyContent": "center",
     }
   }
-  type="range"
-  value="Range"
-/>
+>
+  <div
+    className="slider"
+    role="slider"
+  >
+    <input
+      className="slider__input"
+      disabled={false}
+      onChange={[Function]}
+      type="number"
+    />
+    <div
+      className="slider__range"
+      style={
+        Object {
+          "width": 200,
+        }
+      }
+    >
+      <button
+        className="slider__range__btn"
+        onMouseDown={[Function]}
+      />
+      <div
+        className="slider__range__length"
+      />
+      <button
+        className="slider__range__btn"
+        onMouseDown={[Function]}
+      />
+    </div>
+    <input
+      className="slider__input slider__input--max"
+      disabled={false}
+      onChange={[Function]}
+      type="number"
+    />
+  </div>
+</div>
 `;
 
 exports[`Storyshots Design System/Range Secondary 1`] = `
-<input
-  className="storybook-range storybook-range--medium storybook-range--secondary"
+<div
   style={
     Object {
-      "backgroundColor": undefined,
+      "display": "flex",
+      "justifyContent": "center",
     }
   }
-  type="range"
-  value="Range"
-/>
+>
+  <div
+    className="slider"
+    role="slider"
+  >
+    <input
+      className="slider__input"
+      disabled={false}
+      onChange={[Function]}
+      type="number"
+    />
+    <div
+      className="slider__range"
+      style={
+        Object {
+          "width": 200,
+        }
+      }
+    >
+      <button
+        className="slider__range__btn"
+        onMouseDown={[Function]}
+      />
+      <div
+        className="slider__range__length"
+      />
+      <button
+        className="slider__range__btn"
+        onMouseDown={[Function]}
+      />
+    </div>
+    <input
+      className="slider__input slider__input--max"
+      disabled={false}
+      onChange={[Function]}
+      type="number"
+    />
+  </div>
+</div>
 `;
 
 exports[`Storyshots Design System/Range Small 1`] = `
-<input
-  className="storybook-range storybook-range--small storybook-range--secondary"
+<div
   style={
     Object {
-      "backgroundColor": undefined,
+      "display": "flex",
+      "justifyContent": "center",
     }
   }
-  type="range"
-  value="Range"
-/>
+>
+  <div
+    className="slider"
+    role="slider"
+  >
+    <input
+      className="slider__input"
+      disabled={false}
+      onChange={[Function]}
+      type="number"
+    />
+    <div
+      className="slider__range"
+      style={
+        Object {
+          "width": 200,
+        }
+      }
+    >
+      <button
+        className="slider__range__btn"
+        onMouseDown={[Function]}
+      />
+      <div
+        className="slider__range__length"
+      />
+      <button
+        className="slider__range__btn"
+        onMouseDown={[Function]}
+      />
+    </div>
+    <input
+      className="slider__input slider__input--max"
+      disabled={false}
+      onChange={[Function]}
+      type="number"
+    />
+  </div>
+</div>
 `;
