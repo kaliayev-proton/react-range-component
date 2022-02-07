@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./range.css";
 
 type HTMLElementEvent<T extends HTMLElement> = Event & {
@@ -8,7 +8,7 @@ type HTMLElementEvent<T extends HTMLElement> = Event & {
 
 const computeMovement = (
   clientX: number,
-  buttonRef: any,
+  buttonRef: HTMLButtonElement,
   offsetLeft: number,
   buttonSize: number,
   buttonPosition: number
@@ -65,12 +65,8 @@ export const Range = ({
   const maxInputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
   // Bullets
-  const minBulletRef = useRef<any>(
-    null
-  ) as React.MutableRefObject<HTMLButtonElement>;
-  const maxBulletRef = useRef<any>(
-    null
-  ) as React.MutableRefObject<HTMLButtonElement>;
+  const minBulletRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
+  const maxBulletRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
 
   // Positions
   const minButton = useRef<number>(0);
@@ -184,7 +180,10 @@ export const Range = ({
     // Update position and input refs
     if (isMaxButton && maxInputRef.current) {
       maxButton.current = compute;
-      maxInputRef.current.value = calcValueOp(compute).toString();
+      const strValue = calcValueOp(compute);
+      if (!isNaN(strValue)) {
+        maxInputRef.current.value = strValue.toString();
+      }
     }
     if (isMinButton && minInputRef.current) {
       minButton.current = compute;
