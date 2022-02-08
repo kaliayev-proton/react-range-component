@@ -54,6 +54,11 @@ export const Range = ({
   const [rangeValues, setRangeValues] = useState(range);
 
   useEffect(() => {
+    if (range[0] > range[1]) {
+      console.error(
+        "Minimum range value in the array is greater than the maximum"
+      );
+    }
     setRangeValues(range);
   }, [range]);
 
@@ -230,6 +235,10 @@ export const Range = ({
         maxBulletRef.current.style.cursor = "w-resize";
       }
     };
+
+    if (!rangeRef.current) {
+      return;
+    }
 
     const { offsetLeft: offset } = rangeRef.current;
     offsetLeft.current = offset;
