@@ -149,4 +149,49 @@ describe("Range component", () => {
 
     expect(buttons[0]).toHaveStyle("left: 20px;");
   });
+
+  test("should update in discret values if we pass more than 2 values in range array prop", async () => {
+    render(<Range range={[2, 4, 18, 30, 66]} />);
+
+    const inputs = screen.getAllByRole("spinbutton");
+    const buttons = screen.getAllByRole("button");
+
+    await drag(buttons[1], {
+      delta: { x: 1, y: 0 },
+    });
+
+    expect(inputs[1]).toHaveValue(2);
+
+    await drag(buttons[1], {
+      delta: { x: 22, y: 0 },
+    });
+
+    expect(inputs[1]).toHaveValue(4);
+
+    await drag(buttons[1], {
+      delta: { x: 29, y: 0 },
+    });
+
+    expect(inputs[1]).toHaveValue(18);
+
+    await drag(buttons[1], {
+      delta: { x: 80, y: 0 },
+    });
+
+    expect(inputs[1]).toHaveValue(30);
+
+    await drag(buttons[1], {
+      delta: { x: 1080, y: 0 },
+    });
+
+    expect(inputs[1]).toHaveValue(66);
+  });
+  test("should disabled inputs if range array has more than 2 values", async () => {
+    render(<Range range={[2, 4, 18, 30, 66]} />);
+
+    const inputs = screen.getAllByRole("spinbutton");
+
+    expect(inputs[0]).toHaveAttribute("disabled");
+    expect(inputs[1]).toHaveAttribute("disabled");
+  });
 });
